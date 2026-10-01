@@ -1,0 +1,43 @@
+version: '3'
+
+vars:
+  APP_NAME: naraberu
+  BIN_DIR: bin
+
+tasks:
+  build:
+    summary: Build the application
+    cmds:
+      - go build -trimpath -ldflags "-H windowsgui" -o {{.BIN_DIR}}/{{.APP_NAME}}.exe .
+
+  build:dev:
+    summary: Build a debug binary with console output
+    cmds:
+      - go build -o {{.BIN_DIR}}/{{.APP_NAME}}-dev.exe .
+
+  run:
+    summary: Run the application
+    deps:
+      - build:dev
+    cmds:
+      - ./{{.BIN_DIR}}/{{.APP_NAME}}-dev.exe
+
+  generate:bindings:
+    summary: Regenerate Wails JS bindings into frontend/dist
+    cmds:
+      - wails3 generate bindings -clean -b -noevents -d frontend/dist/bindings
+
+  clean:
+    summary: Remove build output
+    cmds:
+      - if exist {{.BIN_DIR}} rmdir /s /q {{.BIN_DIR}}
+    platforms:
+      - windows
+
+  clean:unix:
+    summary: Remove build output
+    cmds:
+      - rm -rf {{.BIN_DIR}}
+    platforms:
+      - darwin
+      - linux

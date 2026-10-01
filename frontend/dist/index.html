@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-dark">
+<head>
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Naraberu</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<audio id="click-sound" preload="auto"></audio>
+<div id="app">
+    <header class="header">
+        <h1 class="header-title" onclick="confirmLeave()">Naraberu</h1>
+        <div class="header-actions">
+            <button class="btn btn-sm btn-secondary" onclick="showSettings()">&#9881; Settings</button>
+            <button class="btn btn-primary" onclick="showAddSeries()">+ Add Series</button>
+            <button class="btn btn-secondary" onclick="exportCSV()">Export CSV</button>
+            <button class="btn btn-secondary" onclick="document.getElementById('csv-import').click()">Import CSV</button>
+            <input type="file" id="csv-import" accept=".csv" style="display:none" onchange="importCSV(event)">
+        </div>
+    </header>
+
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="search-box">
+                <input type="text" id="search-input" placeholder="Search series…" oninput="debouncedSearch()" spellcheck="false">
+            </div>
+            <div id="result-count" class="result-count"></div>
+            <div class="filter-section">
+                <h3>Status</h3>
+                <select id="filter-status" onchange="searchSeries()">
+                    <option value="">All</option>
+                    <option value="to-watch">To Watch</option>
+                    <option value="watched">Watched</option>
+                    <option value="in-progress">In Progress</option>
+                    <option value="abandoned">Abandoned</option>
+                </select>
+            </div>
+            <div class="filter-section">
+                <label class="sort-dir">
+                    <input type="checkbox" id="filter-favorites" onchange="searchSeries()"> Favorites Only
+                </label>
+                <label class="sort-dir">
+                    <input type="checkbox" id="filter-linked" onchange="searchSeries()"> Linked Only
+                </label>
+                <label class="sort-dir">
+                    <input type="checkbox" id="filter-owned" onchange="searchSeries()"> Owned Only
+                </label>
+            </div>
+            <div class="filter-section">
+                <h3>Tags</h3>
+                <div id="tag-scroll-wrapper" class="tag-scroll-wrapper">
+                    <div id="tag-filters" class="tag-list"></div>
+                    <div class="tag-shadow-fade"></div>
+                </div>
+                <span id="tag-expand-btn" class="tag-expand-link" onclick="toggleTagExpand()">Expand ▾</span>
+            </div>
+            <div class="filter-section">
+                <h3>Sort By</h3>
+                <select id="sort-by" onchange="onSortByChanged()">
+                    <option value="updatedAt">Last Updated</option>
+                    <option value="englishName">English Name</option>
+                    <option value="japaneseName">Japanese Name</option>
+                    <option value="score">Score</option>
+                    <option value="startDate">Start Date</option>
+                    <option value="endDate">End Date</option>
+                    <option value="status">Status</option>
+                </select>
+                <label class="sort-dir">
+                    <input type="checkbox" id="sort-desc" checked onchange="searchSeries()"> Descending
+                </label>
+            </div>
+        </aside>
+
+        <main class="content">
+            <div class="batch-bar" id="batch-bar">
+                <input type="checkbox" id="select-all" onchange="toggleSelectAll(this.checked)">
+                <span id="batch-count">0 selected</span>
+                <input type="text" id="batch-tag-input" class="batch-tag-input" placeholder="Add tag to selected…" onkeydown="if(event.key==='Enter'){batchAddTag();}">
+                <button class="btn btn-sm btn-secondary" onclick="batchAddTag()">Add Tag</button>
+                <span class="batch-spacer"></span>
+                <button class="btn btn-sm btn-danger" onclick="batchDelete()">Delete Selected</button>
+                <button class="btn btn-sm btn-secondary" onclick="clearSelection()">Cancel</button>
+            </div>
+            <div id="series-list" class="series-grid"></div>
+            <div id="series-detail" class="series-detail hidden"></div>
+        </main>
+    </div>
+</div>
+
+<script type="module" src="boot.js"></script>
+<script src="markdown.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
