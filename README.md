@@ -2,11 +2,11 @@
 
 **Version 1.0.0**—offline desktop anime tracker (Windows x64).
 
-Naraberu is a desktop app for keeping a personal anime list on your own machine. Add series, mark what you have watched, score them, write notes, tag them, and find them again later—without an account, without a server, and without anyone else reading your list.
+Naraberu is a desktop app for keeping a personal anime list on your own machine. Add series, mark which you have watched, score them, write notes, tag them, and find them again later—without an account, without a server, and without anyone else reading your list.
 
 It is built for people who want a calm, local library: open the app, see what is there, change what you want, close it. Everything lives in one folder you can copy to a USB drive or a backup disk.
 
-## At a glance
+## Project at a glance
 
 | | |
 |---|---|
@@ -25,17 +25,17 @@ It is built for people who want a calm, local library: open the app, see what is
 - **Status**: To Watch, In Progress, Watched, Abandoned
 - **Score**: one number from 0 to 10 (see Data fields below)
 - **Favorites** and **Owned** toggles
-- **Links**: connect sequels and spin-offs; links go both ways
+- **Link series**: connect sequels and spin-offs; links go both ways
 - **Thumbnails**: pick a local image, or let CSV import fetch a URL
 - **Dates**: start and end of watching, with flexible precision
 - **Review and synopsis**: plain text or Markdown (headings, lists, bold, italics, monospace)
 - **Tags**: free-form, de-duplicated, sorted
 - **Search**: accent- and quote-insensitive; covers names, tags, synopsis, and notes
-- **Sort and filters**: status, tags, favorites, owned, linked; English sort ignores leading “The”, “A”, “An”
+- **Sort and filters**: status, tags, favorites, owned, linked; English sort ignores leading articles
 - **CSV export and import**: with duplicate detection
 - **Batch tools**: multi-select, batch delete, batch add tags
-- **Themes and click sound**: ten themes; optional mp3 on list clicks
-- **Keyboard**: see shortcuts below
+- **Themes and click sound**: ten color themes; optional MP3 sound on series clicks
+- **Keyboard shortcuts**: see reference below
 
 ## What Naraberu is not
 
@@ -48,7 +48,7 @@ Naraberu is **local, offline, and private** by design. It will not:
 
 That is intentional: Naraberu stays a private library on your machine.
 
-If you want online sync or community features, other open-source projects fill that role: for example **Taiga**, **Trackma**, or **MAL-Sync**. They are aimed at multi-service tracking and live updates. Naraberu is intentionally the opposite: one file, one machine, no network unless you ask for a convenience.
+If you want online sync or community features, other open-source projects fill that role: for example **Taiga**, **Trackma**, or **MAL-Sync**. They are aimed at multi-service tracking and live updates. Naraberu is intentionally different: one app, one machine, no network unless you run a utility.
 
 ### Optional network use
 
@@ -66,7 +66,7 @@ If you do not use `csvgen` and you import only local image paths (no thumbnail U
 | **English name / Japanese name** | Primary titles. Both are searchable. |
 | **Alternative names** | Extra titles or romanizations; searchable. |
 | **Status** | To Watch, In Progress, Watched, or Abandoned. |
-| **Score** | A single score from **0 to 10**. You may use integers or a decimal (7, 7.5). Zero means “not scored”; the list shows a star badge only when the score is above zero. Out-of-range values on CSV import are reset to 0 and reported. |
+| **Score** | A single score from **0 to 10**. You may use integers or a decimal (7, 7.5). Zero means “not scored”; the list shows a “scored”/“rated” star badge only when the score is above zero. Out-of-range values on CSV import are reset to 0 and reported. |
 | **Start date / End date** | When you watched it. Use the precision you have: `2024`, `2024/03`, or `2024/03/15`. Hyphens work the same (`2024-03-15`). The app does not guess missing parts. |
 | **Review / notes** | Free text; rendered as Markdown when you are not editing. |
 | **Synopsis** | Description; same Markdown behavior. |
@@ -74,8 +74,8 @@ If you do not use `csvgen` and you import only local image paths (no thumbnail U
 | **Favorite** | Heart toggle. |
 | **Owned** | Star toggle, for series you have on Blu-ray, DVD, etc. |
 | **Linked series** | Other entries (sequels, films, spin-offs). Editing a link updates both rows. |
-| **Thumbnail** | Local file under `data/thumbnails/`, or a URL recorded until import downloads it. |
-| **Created / last modified** | Shown at the bottom of the detail view. |
+| **Thumbnail** | Local file under `data/thumbnails/`, "or a URL until CSV import downloads it. |
+| **Created / last modified** | Shown at the bottom of the series detail view. |
 
 ## Data storage and backups
 
@@ -86,7 +86,7 @@ By default, Naraberu uses a **`data` folder next to the executable**. It does no
 | `data/naraberu.db` | SQLite database (series and settings) |
 | `data/thumbnails/` | Image files |
 | `data/backups/` | Automatic startup copies (keeps the last 5) |
-| `data/sounds/` | Extra click sounds you add |
+| `data/sounds/` | Extra click sounds you can add |
 | `data/webview/` | Browser profile for the embedded view |
 
 To put data somewhere else, set **`NARABERU_DATA_DIR`** before launching:
@@ -102,9 +102,7 @@ Details: [docs/data-layout.md](docs/data-layout.md).
 
 ### Backups
 
-The app copies `naraberu.db` into `data/backups/` on startup and keeps the five newest copies. That protects against a corrupt file or a bad edit.
-
-**Recommendation:** now and then, use **Export CSV** and keep that file somewhere else (another disk, a folder you trust in the cloud, and so on). Automated backups sit beside the live database—they do not help if the whole folder is lost. A CSV export is a portable, human-readable safety copy.
+The app copies `naraberu.db` into `data/backups/` on startup and keeps the five most recent copies to protect against a corrupt file or a bad edit.
 
 You can also run:
 
@@ -113,6 +111,8 @@ You can also run:
 # or
 DATA_DIR=/path/to/data ./scripts/backup.sh
 ```
+
+**Recommendation:** now and then, use **Export CSV** and keep that file somewhere safe (e.g., another folder or disk, a cloud backup, etc.). Automated backups sit beside the live database—they do not help if the whole folder is lost. A CSV export is a portable, human-readable safety copy.
 
 ## Click sound (audio)
 
@@ -136,7 +136,7 @@ To replace the bundled default, overwrite `frontend/dist/pick.mp3` and rebuild s
 | `Backspace` | Clear search, status, favorites, linked, owned, and tags |
 | Arrow Up / Down | Move between series cards |
 | `Enter` | Open the focused card |
-| `Tab` | Move between controls (modals keep focus inside) |
+| `Tab` | Move between controls (modals trap focus) |
 
 ## Settings
 
@@ -146,11 +146,11 @@ The gear button opens settings for:
 - **Click sound**: bundled clip, any mp3 in `data/sounds/`, or None
 - **Mute**: silence clicks without changing the selected file
 
-Settings are stored in the database and apply to this install only.
+Settings are stored in the database.
 
 ## CSV
 
-Export and import share one column list, including a single **`score`**. Quoted fields may contain commas and line breaks (useful for long reviews). See [docs/csv-format.md](docs/csv-format.md).
+Export and import share one column list. Quoted fields may contain commas and line breaks (useful for long reviews). See [docs/csv-format.md](docs/csv-format.md).
 
 Import skips titles that already exist (by English name) and reports skips and warnings.
 
@@ -172,14 +172,14 @@ go run ./cmd/csvgen docs/anime-list.example.txt anime-import.csv
 
 It is **decent at English and Japanese names** when the title is unambiguous. That is the main win for a long list.
 
-Expect to **fix or replace thumbnails and synopses yourself** often. Automatic matching can pick the wrong show (short or odd titles are especially risky), and synopses are whatever the source returns—sometimes truncated or generic. Spot-check the CSV before import. Dates are left empty on purpose; those are your watch dates, not air dates.
+Expect to **fix or replace thumbnails and synopses yourself** often. Automatic matching can pick the wrong show (short or odd titles are especially risky), and synopses are whatever the source returns—sometimes truncated or generic. Spot-check the CSV before import. Dates are left empty on purpose; those are intended to be personal watch dates, not air dates.
 
 The tool hits the network for every title and keeps a slow request pace. It does not compare against your existing database; import does that.
 
 ### Limits
 
 - Fuzzy title matching will not get everything right
-- No guarantee of a good image or a useful synopsis
+- Not certain to find a good image or a useful synopsis
 - Re-running overwrites the output file
 - Optional helper only; the app never requires it
 
@@ -189,14 +189,14 @@ For users who just want the app (not the source):
 
 1. **Download** `Naraberu-1.0.0-windows-amd64.zip` from the GitHub **Releases** page (or build it yourself—see below).
 2. **Unpack** the zip into a folder you can write to, for example `D:\Apps\Naraberu` or on the Desktop. Avoid `Program Files` unless you also set `NARABERU_DATA_DIR`.
-3. **If Windows says the app is unrecognized** (SmartScreen: “Windows protected your PC”):
+3. **If Windows says the app is unrecognized** (“Windows protected your PC”):
    - Click **More info**
    - Click **Run anyway**
    - Builds are not code-signed; this warning is expected until a signed release exists.
 4. **Run `naraberu.exe`.** On first start it creates a `data` folder next to the exe (database, thumbnails, backups).
-5. **If the window does not open**, install the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (usually already present on Windows 10/11), then start the app again.
+5. **If the window does not open**, try installing the [WebView2 runtime](https://developer.microsoft.com/microsoft-edge/webview2/) (usually already present on Windows 10/11), then start the app again.
 
-No installer is required. To uninstall, delete the folder (and any separate folder you pointed `NARABERU_DATA_DIR` at).
+No installer is required. To uninstall, delete the folder (and any separate folder at which you pointed `NARABERU_DATA_DIR`).
 
 ## Requirements
 
@@ -231,7 +231,7 @@ Production build (icon and version resources), from Git Bash:
 # output: build/bin/naraberu.exe
 ```
 
-Release zip (what you upload to GitHub Releases):
+Release zip (what gets uploaded to GitHub Releases):
 
 ```bash
 ./scripts/package-release.sh
@@ -242,11 +242,9 @@ VERSION=1.0.0 ./scripts/package-release.sh
 
 Step-by-step publishing notes: [docs/release-checklist.md](docs/release-checklist.md).
 
-This project targets Wails v3.
-
 ## Roadmap
 
-Ideas for later development, not commitments:
+Some ideas for future development:
 
 - **Internationalization**: UI strings in more than English
 - **Click-sound volume**: a real volume control, not only mute and unmute
