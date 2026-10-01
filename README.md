@@ -74,7 +74,7 @@ If you do not use `csvgen` and you import only local image paths (no thumbnail U
 | **Favorite** | Heart toggle. |
 | **Owned** | Star toggle, for series you have on Blu-ray, DVD, etc. |
 | **Linked series** | Other entries (sequels, films, spin-offs). Editing a link updates both rows. |
-| **Thumbnail** | Local file under `data/thumbnails/`, "or a URL until CSV import downloads it. |
+| **Thumbnail** | Local file under `data/thumbnails/`, or a URL until CSV import downloads it. |
 | **Created / last modified** | Shown at the bottom of the series detail view. |
 
 ## Data storage and backups
