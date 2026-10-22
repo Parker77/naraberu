@@ -761,7 +761,10 @@ input[type="checkbox"]:hover {
     margin-top: 12px;
 }
 
-.form-group { margin-bottom: 16px; }
+.form-group {
+    margin-bottom: 16px;
+    overflow-wrap: break-word;
+}
 
 .form-group label {
     display: block;
