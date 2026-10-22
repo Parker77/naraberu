@@ -1,6 +1,6 @@
 bin/
 data/
-dist/
+dist
 *.csv
 *.exe
 *.exe~
