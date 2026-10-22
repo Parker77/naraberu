@@ -1,6 +1,6 @@
 # Naraberu
 
-**Version 1.0.0**—offline desktop anime tracker (Windows x64).
+**Version 1.0.1**—offline desktop anime tracker (Windows x64).
 
 Naraberu is a desktop app for keeping a personal anime list on your own machine. Add series, mark which you have watched, score them, write notes, tag them, and find them again later—without an account, without a server, and without anyone else reading your list.
 
